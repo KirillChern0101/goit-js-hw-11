@@ -1,25 +1,15 @@
 import Notiflix from 'notiflix';
-import axios from 'axios';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 import { fetchImages } from './fetchImages';
+import axios from 'axios';
 
 const input = document.querySelector('.search-form-input');
 const btnSearch = document.querySelector('.search-form-button');
 const gallery = document.querySelector('.gallery');
 const btnLoadMore = document.querySelector('.load-more');
+
 let gallerySimpleLightbox = new SimpleLightbox('.gallery a');
-
-// const { height: cardHeight } = document
-//   .querySelector('.gallery')
-//   .firstElementChild.getBoundingClientRect();
-
-// window.scrollBy({
-//   top: cardHeight * 2,
-
-//   behavior: 'smooth',
-// });
-
 btnLoadMore.style.display = 'none';
 
 let pageNumber = 1;
@@ -31,13 +21,11 @@ btnSearch.addEventListener('click', e => {
   if (trimmedValue !== '') {
     fetchImages(trimmedValue, pageNumber).then(foundData => {
       if (foundData.hits.length === 0) {
-        Notiflix.Notify.failure(
-          'Sorry, there are no images matching your search query. Please try again.'
-        );
+        Notiflix.Notify.failure('Something went wrong :( Try again.');
       } else {
         renderImageList(foundData.hits);
         Notiflix.Notify.success(
-          `Hooray! We found ${foundData.totalHits} images.`
+          `Great! We found ${foundData.totalHits} images for you. Enjoy ;)`
         );
         btnLoadMore.style.display = 'block';
         gallerySimpleLightbox.refresh();
@@ -52,13 +40,11 @@ btnLoadMore.addEventListener('click', () => {
   btnLoadMore.style.display = 'none';
   fetchImages(trimmedValue, pageNumber).then(foundData => {
     if (foundData.hits.length === 0) {
-      Notiflix.Notify.failure(
-        'Sorry, there are no images matching your search query. Please try again.'
-      );
+      Notiflix.Notify.failure('Something went wrong :( Try again.');
     } else {
       renderImageList(foundData.hits);
       Notiflix.Notify.success(
-        `Hooray! We found ${foundData.totalHits} images.`
+        `Great! We found ${foundData.totalHits} images for you. Enjoy ;)`
       );
       btnLoadMore.style.display = 'block';
     }
