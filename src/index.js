@@ -40,22 +40,22 @@ btnLoadMore.addEventListener('click', () => {
   btnLoadMore.style.display = 'none';
   fetchImages(trimmedValue, pageNumber).then(foundData => {
     if (foundData.hits.length === 0) {
-      Notiflix.Notify.failure('Something went wrong :( Try again.');
+      Notiflix.Notify.failure(
+        "We're sorry, but you've reached the end of search results."
+      );
+      btnLoadMore.style.display = 'none';
     } else {
       renderImageList(foundData.hits);
-      Notiflix.Notify.success(
-        `Great! We found ${foundData.totalHits} images for you. Enjoy ;)`
-      );
+      Notiflix.Notify.success;
       btnLoadMore.style.display = 'block';
+      gallerySimpleLightbox.refresh();
     }
   });
 });
 
 function renderImageList(images) {
-  console.log(images, 'images');
   const markup = images
     .map(image => {
-      console.log('img', image);
       return `<div class="photo-card">
 
        <a href="${image.largeImageURL}"><img class="photo" src="${image.webformatURL}" alt="${image.tags}" title="${image.tags}" loading="lazy"/></a>
